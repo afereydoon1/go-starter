@@ -4,37 +4,30 @@ services:
     container_name: postgres
     restart: always
     environment:
-      POSTGRES_DB: starter_db
-      POSTGRES_USER: starter_user
-      POSTGRES_PASSWORD: starter_pass
+      POSTGRES_DB: ${DB_NAME}
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
     ports:
       - "5432:5432"
     volumes:
       - pg_data:/var/lib/postgresql/data
-
-  pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    restart: always
-    ports:
-      - "8081:80"
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    depends_on:
-      - db
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
+      interval: 10s
+      retries: 5
 
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile.prod
     container_name: starter-app
     ports:
       - "8080:8080"
-    volumes:
-      - .:/app
+    environment:
+      - APP_ENV=production
     depends_on:
-      - db
-    env_file:
-      - .env
+      db:
+        condition: service_healthy
 
 volumes:
   pg_data:

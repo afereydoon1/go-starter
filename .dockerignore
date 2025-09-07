@@ -1,0 +1,21 @@
+# VCS
+.git
+.gitignore
+
+# Binary
+bin/
+*.exe
+*.out
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Go
+vendor/
+*.test
+
+# IDEs
+.idea/
+.vscode/
+*.swp

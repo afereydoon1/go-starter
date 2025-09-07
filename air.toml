@@ -1,7 +1,5 @@
-# air.toml
-
 [build]
-cmd = "go build -o bin/main ."
+cmd = "go build -o bin/main ./cmd/api"
 bin = "bin/main"
 full_bin = "bin/main"
 include_ext = ["go"]

@@ -1,68 +1,71 @@
+# ===============================
 # Project settings
+# ===============================
 APP_NAME := starter-app
 DB_SERVICE := db
 APP_SERVICE := app
-COMPOSE_FILE := docker-compose.yml
-ENV_FILE := .env
+COMPOSE_PROD := docker-compose.yml
+COMPOSE_DEV := docker-compose.override.yml
+ENV_FILE_PROD := .env
+ENV_FILE_DEV := .env.dev
 
-#---------------------------------------------------------------
-# 🐳 Build production image
-#---------------------------------------------------------------
+# ===============================
+# 🐳 Build
+# ===============================
+
 docker-build:
 	docker build -f Dockerfile.prod -t $(APP_NAME):latest .
 
-#---------------------------------------------------------------
-# 🚀 Start all services (DB + App + Admin)
-#---------------------------------------------------------------
+docker-build-dev:
+	docker build -f Dockerfile.dev -t $(APP_NAME):dev .
+
+# ===============================
+# 🚀 Start services
+# ===============================
 
 up:
-	docker-compose -f $(COMPOSE_FILE) up -d
-#---------------------------------------------------------------
-# 🔄 Start only the application (useful for dev or testing)
-#---------------------------------------------------------------
+	docker-compose -f $(COMPOSE_PROD) up -d
+
+up-dev:
+	docker-compose -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) up -d
+
 up-app:
-	docker-compose -f $(COMPOSE_FILE) up -d $(APP_SERVICE)
+	docker-compose -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) up -d $(APP_SERVICE)
 
-#---------------------------------------------------------------
-# 🔽 Stop all services
-#---------------------------------------------------------------
+# ===============================
+# 🔽 Stop services
+# ===============================
+
 down:
-	docker-compose -f $(COMPOSE_FILE) down
+	docker-compose -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) down
 
-#---------------------------------------------------------------
-# 🧹 Stop services and remove volumes (clean DB and data)
-#---------------------------------------------------------------
 down-clean:
-	docker-compose -f $(COMPOSE_FILE) down -v --remove-orphans
+	docker-compose -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) down -v --remove-orphans
 
-#---------------------------------------------------------------
-# 📥 Pull the latest images
-#---------------------------------------------------------------
+# ===============================
+# 📥 Pull / 📤 Push
+# ===============================
+
 docker-pull:
-	docker-compose -f $(COMPOSE_FILE) pull
+	docker-compose -f $(COMPOSE_PROD) pull
 
-#---------------------------------------------------------------
-# 📤 Push the image to Docker Hub or registry
-#---------------------------------------------------------------
 docker-push:
 	docker push $(APP_NAME):latest
 
-#---------------------------------------------------------------
-# 🐳 View logs in real-time
-#---------------------------------------------------------------
+# ===============================
+# 🐳 Logs / Restart / Exec
+# ===============================
+
 logs:
-	docker-compose -f $(COMPOSE_FILE) logs -f
+	docker-compose -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) logs -f
 
-#---------------------------------------------------------------
-# 🔄 Restart a service quickly
-#---------------------------------------------------------------
 restart-app:
-	docker-compose -f $(COMPOSE_FILE) restart $(APP_SERVICE)
+	docker-compose -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) restart $(APP_SERVICE)
 
-#---------------------------------------------------------------
-# 🧪 Execute commands inside the app container
-#---------------------------------------------------------------
 exec-app:
-	docker-compose -f $(COMPOSE_FILE) exec $(APP_SERVICE) sh
+	docker-compose -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) exec $(APP_SERVICE) sh
 
-.PHONY: docker-build up up-app down down-clean docker-pull docker-push logs restart-app exec-app
+# ===============================
+# Phony targets
+# ===============================
+.PHONY: docker-build docker-build-dev up up-dev up-app down down-clean docker-pull docker-push logs restart-app exec-app

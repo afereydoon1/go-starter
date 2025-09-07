@@ -1,0 +1,23 @@
+# Stage 1 - Build
+FROM golang:1.25.1 AS builder
+
+WORKDIR /app
+
+COPY go.mod ./
+COPY go.sum ./
+RUN go mod download
+
+COPY . .
+RUN go build -o main ./cmd/api
+
+# Stage 2 - Final image
+FROM debian:bullseye-slim
+
+WORKDIR /app
+COPY --from=builder /app/main .
+
+# Use non-root user (optional, for security)
+RUN useradd -m appuser
+USER appuser
+
+CMD ["./main"]
