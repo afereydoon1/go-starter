@@ -1,9 +1,9 @@
 package main
 
 import (
-	"example.com/go-api/config"
-	"example.com/go-api/routes"
-	"example.com/go-api/utils"
+	"example.com/go-api/internal/app/config"
+	"example.com/go-api/internal/app/routes"
+	"example.com/go-api/internal/app/utils"
 
 	"github.com/gin-gonic/gin"
 )
