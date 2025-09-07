@@ -1,27 +1,26 @@
 services:
   db:
-    image: mysql:8
-    container_name: mysql
+    image: postgres:15
+    container_name: postgres
     restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: starter_db
-      MYSQL_USER: starter_user
-      MYSQL_PASSWORD: starter_pass
+      POSTGRES_DB: starter_db
+      POSTGRES_USER: starter_user
+      POSTGRES_PASSWORD: starter_pass
     ports:
-      - "3307:3306"
+      - "5432:5432"
     volumes:
-      - mysql_data:/var/lib/mysql
+      - pg_data:/var/lib/postgresql/data
 
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin
-    container_name: phpmyadmin
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin
     restart: always
     ports:
       - "8081:80"
     environment:
-      PMA_HOST: db
-      MYSQL_ROOT_PASSWORD: root
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
     depends_on:
       - db
 
@@ -38,4 +37,4 @@ services:
       - .env
 
 volumes:
-  mysql_data:
+  pg_data:
