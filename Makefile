@@ -6,8 +6,7 @@ DB_SERVICE := db
 APP_SERVICE := app
 COMPOSE_PROD := docker-compose.yml
 COMPOSE_DEV := docker-compose.override.yml
-ENV_FILE_PROD := .env
-ENV_FILE_DEV := .env.dev
+ENV_FILE := .env
 
 # ===============================
 # 🐳 Build
@@ -24,13 +23,13 @@ docker-build-dev:
 # ===============================
 
 up:
-	docker-compose -f $(COMPOSE_PROD) up -d
+	docker-compose --env-file $(ENV_FILE) -f $(COMPOSE_PROD) up -d
 
 up-dev:
-	docker-compose -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) up -d
+	docker-compose --env-file $(ENV_FILE) -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) up -d
 
 up-app:
-	docker-compose -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) up -d $(APP_SERVICE)
+	docker-compose --env-file $(ENV_FILE) -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) up -d $(APP_SERVICE)
 
 # ===============================
 # 🔽 Stop services
@@ -47,7 +46,7 @@ down-clean:
 # ===============================
 
 docker-pull:
-	docker-compose -f $(COMPOSE_PROD) pull
+	docker-compose --env-file $(ENV_FILE) -f $(COMPOSE_PROD) pull
 
 docker-push:
 	docker push $(APP_NAME):latest

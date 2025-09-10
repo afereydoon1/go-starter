@@ -9,7 +9,9 @@ services:
     volumes:
       - .:/app
     env_file:
-      - .env.dev
+      - .env
+    environment:
+      - APP_ENV=development
     depends_on:
       db:
         condition: service_healthy
