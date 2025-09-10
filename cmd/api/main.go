@@ -14,39 +14,25 @@ import (
 
 func main() {
 	// ------------------------
-	// 1️⃣ Load environment variables
+	// 1️⃣ Connect to database
 	// ------------------------
-	dbUser := os.Getenv("POSTGRES_USER")
-	dbPass := os.Getenv("POSTGRES_PASSWORD")
-	dbName := os.Getenv("POSTGRES_DB")
-	dbHost := os.Getenv("POSTGRES_HOST")
-	if dbHost == "" {
-		dbHost = "db" // default service name in docker-compose
-	}
-
-	// ------------------------
-	// 2️⃣ Connect to database
-	// ------------------------
-	err := config.ConnectDB(dbUser, dbPass, dbName, dbHost)
-	if err != nil {
-		log.Fatalf("Failed to connect to DB: %v", err)
-	}
+	config.ConnectDB()
 	fmt.Println("✅ Database connected!")
 
 	// ------------------------
-	// 3️⃣ Initialize Validator
+	// 2️⃣ Initialize Validator
 	// ------------------------
 	utils.InitValidator()
 	fmt.Println("✅ Validator initialized!")
 
 	// ------------------------
-	// 4️⃣ Setup Gin router
+	// 3️⃣ Setup Gin router
 	// ------------------------
 	r := gin.Default()
 	routes.RegisterRoutes(r)
 
 	// ------------------------
-	// 5️⃣ Start server
+	// 4️⃣ Start server
 	// ------------------------
 	port := os.Getenv("APP_PORT")
 	if port == "" {

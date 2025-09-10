@@ -1,7 +1,7 @@
 package routes
 
 import (
-	"example.com/go-api/controllers"
+	"example.com/go-api/internal/app/controllers"
 	"github.com/gin-gonic/gin"
 )
 

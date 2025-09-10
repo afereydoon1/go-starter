@@ -2,10 +2,10 @@ package controllers
 
 import (
 	"net/http"
-	"example.com/go-api/config"
-	"example.com/go-api/models"
-	"example.com/go-api/requests"
-	"example.com/go-api/utils"
+	"example.com/go-api/internal/app/config"
+	"example.com/go-api/internal/app/models"
+	"example.com/go-api/internal/app/requests"
+	"example.com/go-api/pkg/utils"
 
 	"github.com/gin-gonic/gin"
 )

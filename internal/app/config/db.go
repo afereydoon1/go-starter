@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"example.com/go-api/models"
+	"example.com/go-api/internal/app/models"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -41,7 +41,13 @@ func ConnectDB() {
 		log.Fatal("❌ Failed to connect to database:", err)
 	}
 
-	db.AutoMigrate(&models.User{})
+	// ✅ Auto migrate all models here
+	if err := db.AutoMigrate(
+		&models.User{},
+	); err != nil {
+		log.Fatal("❌ Failed to migrate database:", err)
+	}
+
 	DB = db
 	log.Println("✅ Connected and migrated DB with", dbType)
 }

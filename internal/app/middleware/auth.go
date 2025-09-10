@@ -3,7 +3,7 @@ package middleware
 import (
 	"net/http"
 	"strings"
-	"example.com/go-api/utils"
+	"example.com/go-api/pkg/utils"
 
 	"github.com/gin-gonic/gin"
 )
