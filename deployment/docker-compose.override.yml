@@ -1,17 +1,17 @@
 services:
   app:
     build:
-      context: .
-      dockerfile: Dockerfile.dev
+      context: ..
+      dockerfile: deployment/docker/app/Dockerfile.dev
     container_name: starter-app-dev
     ports:
       - "8080:8080"
     volumes:
-      - .:/app
+      - ../:/app
     env_file:
-      - .env
+      - ../.env
     environment:
-      - APP_ENV=development
+      - APP_ENV=${APP_ENV}
     depends_on:
       db:
         condition: service_healthy

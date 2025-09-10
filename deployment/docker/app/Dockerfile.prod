@@ -1,0 +1,28 @@
+# ----------- Stage 1: Build -----------
+FROM golang:1.25.1 AS builder
+
+WORKDIR /app
+
+# Cache Go modules
+COPY go.mod go.sum ./
+RUN go mod download
+
+# Copy the rest of the source
+COPY . .
+
+# Build the app statically (no CGO dependencies)
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o main ./cmd/api
+
+# ----------- Stage 2: Runtime -----------
+FROM gcr.io/distroless/static:nonroot
+
+WORKDIR /app
+
+# Copy the built binary
+COPY --from=builder /app/main .
+
+# No need to add user — image runs as nonroot by default
+USER nonroot
+
+# Run the app
+CMD ["./main"]

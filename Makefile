@@ -4,19 +4,23 @@
 APP_NAME := starter-app
 DB_SERVICE := db
 APP_SERVICE := app
-COMPOSE_PROD := docker-compose.yml
-COMPOSE_DEV := docker-compose.override.yml
+
+COMPOSE_PROD := deployment/docker-compose.yml
+COMPOSE_DEV := deployment/docker-compose.override.yml
 ENV_FILE := .env
+
+DOCKERFILE_DEV := deployment/docker/app/Dockerfile.dev
+DOCKERFILE_PROD := deployment/docker/app/Dockerfile.prod
 
 # ===============================
 # 🐳 Build
 # ===============================
 
 docker-build:
-	docker build -f Dockerfile.prod -t $(APP_NAME):latest .
+	docker build -f $(DOCKERFILE_PROD) -t $(APP_NAME):latest .
 
 docker-build-dev:
-	docker build -f Dockerfile.dev -t $(APP_NAME):dev .
+	docker build -f $(DOCKERFILE_DEV) -t $(APP_NAME):dev .
 
 # ===============================
 # 🚀 Start services
@@ -36,21 +40,10 @@ up-app:
 # ===============================
 
 down:
-	docker-compose -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) down
+	docker-compose --env-file $(ENV_FILE) -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) down
 
 down-clean:
-	docker-compose -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) down -v --remove-orphans
-
-# ===============================
-# 📥 Pull / 📤 Push
-# ===============================
-
-docker-pull:
-	docker-compose --env-file $(ENV_FILE) -f $(COMPOSE_PROD) pull
-
-docker-push:
-	docker push $(APP_NAME):latest
-
+	docker-compose --env-file $(ENV_FILE) -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) down -v --remove-orphans
 # ===============================
 # 🐳 Logs / Restart / Exec
 # ===============================
@@ -67,4 +60,4 @@ exec-app:
 # ===============================
 # Phony targets
 # ===============================
-.PHONY: docker-build docker-build-dev up up-dev up-app down down-clean docker-pull docker-push logs restart-app exec-app
+.PHONY: docker-build docker-build-dev up up-dev up-app down down-clean logs restart-app exec-app

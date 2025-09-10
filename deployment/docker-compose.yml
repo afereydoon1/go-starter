@@ -18,13 +18,15 @@ services:
 
   app:
     build:
-      context: .
-      dockerfile: Dockerfile.prod
+      context: ..
+      dockerfile: deployment/docker/app/Dockerfile.prod
     container_name: starter-app
     ports:
       - "8080:8080"
     env_file:
-      - .env
+      - ../.env
+    environment:
+      - APP_ENV=${APP_ENV}
     depends_on:
       db:
         condition: service_healthy
