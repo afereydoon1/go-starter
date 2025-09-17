@@ -16,11 +16,12 @@ services:
       db:
         condition: service_healthy
     command: ["air"]
+    restart: unless-stopped
 
   pgadmin:
-    image: dpage/pgadmin4
+    image: dpage/pgadmin4:8.12
     container_name: pgadmin
-    restart: always
+    restart: unless-stopped
     ports:
       - "8081:80"
     environment:
@@ -29,3 +30,7 @@ services:
     depends_on:
       db:
         condition: service_healthy
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+volumes:
+  pgadmin_data:

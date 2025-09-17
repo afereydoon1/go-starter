@@ -1,11 +1,23 @@
 root = "."
-tmp_dir = "tmp"
+tmp_dir = "./tmp"
 
 [build]
-  cmd = "go build -o ./tmp/main ./cmd/api"
+  cmd = "go build -buildvcs=false -o tmp/main ./cmd/api"
   bin = "tmp/main"
-  delay = 1000
+  delay = 300
   exclude_dir = ["tmp", "vendor", "deployment"]
+  include_ext = ["go"]
+  log = "build-errors.log"
+  stop_on_error = true
+
+[watch]
+  include_dir = ["cmd", "internal", "pkg"]
+  include_ext = ["go"]
+  exclude_file = [".env"]
 
 [log]
   time = true
+  main_only = false
+
+[misc]
+  clean_on_exit = true

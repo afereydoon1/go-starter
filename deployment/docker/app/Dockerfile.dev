@@ -1,25 +1,20 @@
-# Base image
-FROM golang:1.25.1
+FROM golang:1.25.1-alpine
 
-# Set working directory
+RUN apk add --no-cache bash
+
 WORKDIR /app
 
-# Set Go binary path for Air
 ENV GOBIN=/usr/local/bin
 
-# Install Air (hot reload tool)
 RUN go install github.com/air-verse/air@latest
 
-# Cache Go modules first
 COPY go.mod go.sum ./
 RUN go mod download
 
-# Copy the rest of the source code
 COPY . .
+RUN ls -la /app
 
-# Use non-root user for better security (optional in dev)
-RUN useradd -m devuser
+RUN adduser -D devuser
 USER devuser
 
-# Start with Air
 CMD ["air"]

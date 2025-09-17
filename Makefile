@@ -49,13 +49,13 @@ down-clean:
 # ===============================
 
 logs:
-	docker-compose -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) logs -f
+	docker-compose --env-file $(ENV_FILE) -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) logs -f
 
 restart-app:
-	docker-compose -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) restart $(APP_SERVICE)
+	docker-compose --env-file $(ENV_FILE) -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) restart $(APP_SERVICE)
 
 exec-app:
-	docker-compose -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) exec $(APP_SERVICE) sh
+	docker-compose --env-file $(ENV_FILE) -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) exec $(APP_SERVICE) sh
 
 # ===============================
 # Phony targets

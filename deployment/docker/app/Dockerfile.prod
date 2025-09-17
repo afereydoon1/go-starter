@@ -1,28 +1,22 @@
-# ----------- Stage 1: Build -----------
-FROM golang:1.25.1 AS builder
+FROM golang:1.25.1-alpine AS builder
 
 WORKDIR /app
 
-# Cache Go modules
 COPY go.mod go.sum ./
 RUN go mod download
 
-# Copy the rest of the source
 COPY . .
+RUN go build -buildvcs=false -o /app/main ./cmd/api
 
-# Build the app statically (no CGO dependencies)
-RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o main ./cmd/api
-
-# ----------- Stage 2: Runtime -----------
-FROM gcr.io/distroless/static:nonroot
+FROM alpine:3.20
 
 WORKDIR /app
 
-# Copy the built binary
 COPY --from=builder /app/main .
 
-# No need to add user — image runs as nonroot by default
-USER nonroot
+RUN adduser -D appuser
+USER appuser
 
-# Run the app
+EXPOSE 8080
+
 CMD ["./main"]

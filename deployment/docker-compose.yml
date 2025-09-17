@@ -1,8 +1,8 @@
 services:
   db:
-    image: postgres:15
+    image: postgres:15.8
     container_name: postgres
-    restart: always
+    restart: unless-stopped
     environment:
       POSTGRES_DB: ${DB_NAME}
       POSTGRES_USER: ${DB_USER}
@@ -14,8 +14,9 @@ services:
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U ${DB_USER}"]
       interval: 10s
+      timeout: 5s
       retries: 5
-
+      start_period: 10s
   app:
     build:
       context: ..
@@ -30,6 +31,6 @@ services:
     depends_on:
       db:
         condition: service_healthy
-
+    restart: unless-stopped
 volumes:
   pg_data:
