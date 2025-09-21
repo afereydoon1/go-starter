@@ -1,0 +1,62 @@
+# ----------------------------------------
+# 🔧 General Settings
+# ----------------------------------------
+
+# Root directory for watching
+root = "."
+
+# Directory to store compiled binary (must be writable!)
+tmp_dir = "tmp"
+
+# Clean up tmp folder on exit
+[misc]
+  clean_on_exit = true
+
+# ----------------------------------------
+# 🏗 Build Settings
+# ----------------------------------------
+
+[build]
+  # Command to build the project
+  cmd = "go build -buildvcs=false -o tmp/main ./cmd/api/main.go"
+
+  # The output binary to run
+  bin = "tmp/main"
+
+  # Delay between change and rebuild (ms)
+  delay = 300
+
+  # Rebuild and restart only if build succeeds
+  stop_on_error = true
+
+  # Log build errors to a file
+  log = "build-errors.log"
+
+  # Files/directories to ignore in build
+  exclude_dir = ["tmp", "vendor", "deployment"]
+  include_ext = ["go"]
+
+# ----------------------------------------
+# 👀 File Watcher Settings
+# ----------------------------------------
+
+[watch]
+  # Only watch these directories (your project structure)
+  include_dir = ["cmd", "internal", "pkg"]
+
+  # Watch only Go files
+  include_ext = ["go"]
+
+  # Don't restart on changes to these files
+  exclude_file = [".env"]
+
+# ----------------------------------------
+# 📜 Logging
+# ----------------------------------------
+
+[log]
+  # Show timestamp in logs
+  time = true
+
+  # Show all logs (not just from main package)
+  main_only = false

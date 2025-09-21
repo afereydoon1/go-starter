@@ -11,7 +11,7 @@ func RegisterRoutes(r *gin.Engine) {
 	r.POST("/register", controllers.CreateUser)
 
 	// Protected routes
-	users := r.Group("/users")
+	users := r.Group("/api/users")
 	{
 		users.POST("", controllers.CreateUser)
 		users.GET("", controllers.GetUsers)

@@ -6,11 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="d3de71b3-a72a-4c95-bdbb-e954d0acd5cd" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/air.toml" beforeDir="false" afterPath="$PROJECT_DIR$/air.toml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deployment/docker-compose.override.yml" beforeDir="false" afterPath="$PROJECT_DIR$/deployment/docker-compose.override.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deployment/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/deployment/docker-compose.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/air.toml" beforeDir="false" afterPath="$PROJECT_DIR$/.air.toml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/deployment/docker/app/Dockerfile.dev" beforeDir="false" afterPath="$PROJECT_DIR$/deployment/docker/app/Dockerfile.dev" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tmp/main" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/app/routes/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/routes/routes.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -75,7 +73,7 @@
       <workItem from="1758202759734" duration="3199000" />
       <workItem from="1758209874282" duration="3743000" />
       <workItem from="1758269327304" duration="2883000" />
-      <workItem from="1758440238686" duration="5727000" />
+      <workItem from="1758440238686" duration="8672000" />
     </task>
     <servers />
   </component>
