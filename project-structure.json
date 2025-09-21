@@ -1,0 +1,42 @@
+{
+  "📁 cmd": {
+    "📁 api": {
+      "📄 main.go": ""
+    }
+  },
+  "📁 deployment": {
+    "📁 docker": {
+      "📁 app": {
+        "📄 Dockerfile.dev": "",
+        "📄 Dockerfile.prod": ""
+      }
+    },
+    "📄 docker-compose.override.yml": "",
+    "📄 docker-compose.yml": ""
+  },
+  "📁 internal": {
+    "📁 app": {
+      "📁 config": {},
+      "📁 controllers": {},
+      "📁 middleware": {},
+      "📁 models": {},
+      "📁 requests": {},
+      "📁 routes": {}
+    }
+  },
+  "📁 pkg": {
+    "📁 utils": {
+      "📄 hash.go": "",
+      "📄 jwt.go": "",
+      "📄 validator.go": ""
+    }
+  },
+  "📄 .dockerignore": "",
+  "📄 .env": "",
+  "📄 .env.dev": "",
+  "📄 .gitignore": "",
+  "📄 air.toml": "",
+  "📄 go.mod": "",
+  "📄 go.sum": "",
+  "📄 Makefile": ""
+}

@@ -5,17 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d3de71b3-a72a-4c95-bdbb-e954d0acd5cd" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.dockerignore" beforeDir="false" afterPath="$PROJECT_DIR$/.dockerignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Makefile" beforeDir="false" afterPath="$PROJECT_DIR$/Makefile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/air.toml" beforeDir="false" afterPath="$PROJECT_DIR$/air.toml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/deployment/docker-compose.override.yml" beforeDir="false" afterPath="$PROJECT_DIR$/deployment/docker-compose.override.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/deployment/docker-compose.yml" beforeDir="false" afterPath="$PROJECT_DIR$/deployment/docker-compose.yml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/deployment/docker/app/Dockerfile.dev" beforeDir="false" afterPath="$PROJECT_DIR$/deployment/docker/app/Dockerfile.dev" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/deployment/docker/app/Dockerfile.prod" beforeDir="false" afterPath="$PROJECT_DIR$/deployment/docker/app/Dockerfile.prod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/app/routes/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/app/routes/routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tmp/build-errors.log" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/tmp/main" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -76,7 +71,11 @@
       <updated>1758051280321</updated>
       <workItem from="1758051281389" duration="2036000" />
       <workItem from="1758054599606" duration="1734000" />
-      <workItem from="1758085267400" duration="16792000" />
+      <workItem from="1758085267400" duration="16918000" />
+      <workItem from="1758202759734" duration="3199000" />
+      <workItem from="1758209874282" duration="3743000" />
+      <workItem from="1758269327304" duration="2883000" />
+      <workItem from="1758440238686" duration="5727000" />
     </task>
     <servers />
   </component>

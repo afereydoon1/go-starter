@@ -1,20 +1,28 @@
+# Use official Go Alpine image
 FROM golang:1.25.1-alpine
 
+# Install bash
 RUN apk add --no-cache bash
 
+# Set working directory
 WORKDIR /app
 
+# Set Go binary path for Air
 ENV GOBIN=/usr/local/bin
 
+# Install Air hot-reload tool
 RUN go install github.com/air-verse/air@latest
 
+# Copy Go modules first for caching
 COPY go.mod go.sum ./
 RUN go mod download
 
+# Copy the rest of the source code
 COPY . .
-RUN ls -la /app
 
+# Optional: use non-root user
 RUN adduser -D devuser
 USER devuser
 
+# Start Air
 CMD ["air"]
