@@ -58,6 +58,11 @@ exec-app:
 	docker-compose --env-file $(ENV_FILE) -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) exec $(APP_SERVICE) sh
 
 # ===============================
+# ✅ Test
+# ===============================
+test:
+	docker-compose --env-file $(ENV_FILE) -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) exec $(APP_SERVICE) go test -v ./...
+# ===============================
 # Phony targets
 # ===============================
 .PHONY: docker-build docker-build-dev up up-dev up-app down down-clean logs restart-app exec-app

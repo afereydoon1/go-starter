@@ -15,13 +15,60 @@
     "📄 docker-compose.yml": ""
   },
   "📁 internal": {
-    "📁 app": {
-      "📁 config": {},
-      "📁 controllers": {},
-      "📁 middleware": {},
-      "📁 models": {},
-      "📁 requests": {},
-      "📁 routes": {}
+    "📁 config": {
+      "📄 config.go": ""
+    },
+    "📁 domain": {
+      "📁 userentity": {
+        "📄 entity.go": ""
+      },
+      "📁 categoryentity": {
+        "📄 entity.go": ""
+      }
+    },
+    "📁 usecase": {
+      "📁 userservice": {
+        "📄 service.go": "",
+        "📄 interface.go": ""
+      },
+      "📁 categoryservice": {
+        "📄 service.go": "",
+        "📄 interface.go": ""
+      }
+    },
+    "📁 delivery": {
+      "📁 user": {
+        "📄 controller.go": "",
+        "📁 requests": {
+          "📄 register_request.go": "",
+          "📄 login_request.go": ""
+        }
+      },
+      "📁 category": {
+        "📄 controller.go": "",
+        "📁 requests": {
+          "📄 category_request.go": ""
+        }
+      },
+      "📁 middleware": {
+        "📄 auth.go": ""
+      }
+    },
+    "📁 infrastructure": {
+      "📁 db": {
+        "📄 gorm_user.go": "",
+        "📄 gorm_category.go": "",
+        "📄 db.go": ""
+      },
+      "📁 jwt": {
+        "📄 jwt_service.go": ""
+      }
+    },
+    "📁 router": {
+      "📄 routes.go": ""
+    },
+    "📁 di": {
+      "📄 container.go": ""
     }
   },
   "📁 pkg": {
@@ -29,13 +76,16 @@
       "📄 hash.go": "",
       "📄 jwt.go": "",
       "📄 validator.go": ""
+    },
+    "📁 logger": {
+      "📄 logger.go": ""
     }
   },
   "📄 .dockerignore": "",
   "📄 .env": "",
-  "📄 .env.dev": "",
+  "📄 .env.exapmle": "",
   "📄 .gitignore": "",
-  "📄 air.toml": "",
+  "📄 .air.toml": "",
   "📄 go.mod": "",
   "📄 go.sum": "",
   "📄 Makefile": ""

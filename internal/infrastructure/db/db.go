@@ -1,39 +1,35 @@
-package config
+package db
 
 import (
 	"fmt"
 	"log"
-	"os"
 	"strings"
 
-	"example.com/go-api/internal/app/models"
+	"example.com/go-api/internal/config"
+	"example.com/go-api/internal/domain/categoryentity"
+	"example.com/go-api/internal/domain/userentity"
 	"gorm.io/driver/mysql"
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
-var DB *gorm.DB
-
-func ConnectDB() {
-	dbType := strings.ToLower(os.Getenv("DB_CONNECTION"))
+func Connect(cfg *config.Config) *gorm.DB {
+	dbType := strings.ToLower(cfg.DBConnection)
 	var dsn string
 	var dialector gorm.Dialector
 
 	switch dbType {
 	case "mysql":
 		dsn = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?parseTime=true",
-			os.Getenv("DB_USER"), os.Getenv("DB_PASSWORD"),
-			os.Getenv("DB_HOST"), os.Getenv("DB_PORT"), os.Getenv("DB_NAME"))
+			cfg.DBUser, cfg.DBPassword, cfg.DBHost, cfg.DBPort, cfg.DBName)
 		dialector = mysql.Open(dsn)
-
 	case "postgres", "pgsql":
 		dsn = fmt.Sprintf("host=%s user=%s password=%s dbname=%s port=%s sslmode=disable",
-			os.Getenv("DB_HOST"), os.Getenv("DB_USER"),
-			os.Getenv("DB_PASSWORD"), os.Getenv("DB_NAME"), os.Getenv("DB_PORT"))
+			cfg.DBHost, cfg.DBUser, cfg.DBPassword, cfg.DBName, cfg.DBPort)
 		dialector = postgres.Open(dsn)
-
 	default:
-		log.Fatalf("❌ Unsupported DB_CONNECTION: %s", dbType)
+		log.Printf("❌ Unsupported DB_CONNECTION: %s", dbType)
+	    panic("Unsupported DB_CONNECTION")
 	}
 
 	db, err := gorm.Open(dialector, &gorm.Config{})
@@ -41,13 +37,11 @@ func ConnectDB() {
 		log.Fatal("❌ Failed to connect to database:", err)
 	}
 
-	// ✅ Auto migrate all models here
-	if err := db.AutoMigrate(
-		&models.User{},
-	); err != nil {
+	// Auto migrate domain models
+	if err := db.AutoMigrate(&userentity.User{},&categoryentity.Category{}); err != nil {
 		log.Fatal("❌ Failed to migrate database:", err)
 	}
 
-	DB = db
 	log.Println("✅ Connected and migrated DB with", dbType)
+	return db
 }

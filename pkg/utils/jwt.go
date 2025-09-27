@@ -2,61 +2,53 @@ package utils
 
 import (
 	"errors"
-	"os"
 	"sync"
 	"time"
 
 	"github.com/golang-jwt/jwt/v5"
 )
 
-var jwtSecret = []byte(os.Getenv("JWT_SECRET"))
+type JWTService struct {
+	secret []byte
+}
 
 var tokenBlacklist = make(map[string]bool)
 var blacklistMutex sync.RWMutex
 
-func InitTokenBlacklist() {
-	tokenBlacklist = make(map[string]bool)
+func NewJWTService(secret string) *JWTService {
+	return &JWTService{
+		secret: []byte(secret),
+	}
 }
 
-func BlacklistToken(token string) {
-	blacklistMutex.Lock()
-	defer blacklistMutex.Unlock()
-	tokenBlacklist[token] = true
-}
-
-func IsTokenBlacklisted(token string) bool {
-	blacklistMutex.RLock()
-	defer blacklistMutex.RUnlock()
-	return tokenBlacklist[token]
-}
-
-func GenerateJWT(userID uint) (string, error) {
+func (j *JWTService) GenerateJWT(userID uint) (string, error) {
 	claims := jwt.MapClaims{
 		"user_id": userID,
 		"exp":     time.Now().Add(time.Minute * 15).Unix(),
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(jwtSecret)
+	return token.SignedString(j.secret)
 }
 
-func GenerateRefreshToken(userID uint) (string, error) {
+func (j *JWTService) GenerateRefreshToken(userID uint) (string, error) {
 	claims := jwt.MapClaims{
 		"user_id": userID,
 		"exp":     time.Now().Add(time.Hour * 24 * 7).Unix(),
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-	return token.SignedString(jwtSecret)
+	return token.SignedString(j.secret)
 }
 
-func ParseJWT(tokenString string) (uint, error) {
+func (j *JWTService) ParseJWT(tokenString string) (uint, error) {
 	if IsTokenBlacklisted(tokenString) {
 		return 0, errors.New("token is blacklisted")
 	}
+
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, errors.New("unexpected signing method")
 		}
-		return jwtSecret, nil
+		return j.secret, nil
 	})
 
 	if err != nil || !token.Valid {
@@ -74,4 +66,23 @@ func ParseJWT(tokenString string) (uint, error) {
 	}
 
 	return uint(userIDFloat), nil
+}
+
+// =====================
+// Optional: blacklist
+// =====================
+func InitTokenBlacklist() {
+	tokenBlacklist = make(map[string]bool)
+}
+
+func BlacklistToken(token string) {
+	blacklistMutex.Lock()
+	defer blacklistMutex.Unlock()
+	tokenBlacklist[token] = true
+}
+
+func IsTokenBlacklisted(token string) bool {
+	blacklistMutex.RLock()
+	defer blacklistMutex.RUnlock()
+	return tokenBlacklist[token]
 }

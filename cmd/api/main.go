@@ -3,44 +3,30 @@ package main
 import (
 	"fmt"
 	"log"
-	"os"
 
-	"example.com/go-api/internal/app/config"
-	"example.com/go-api/internal/app/routes"
+	"example.com/go-api/internal/config"
+	"example.com/go-api/internal/di"
+	"example.com/go-api/internal/infrastructure/db"
+	"example.com/go-api/internal/router"
 	"example.com/go-api/pkg/utils"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	// ------------------------
-	// 1️⃣ Connect to database
-	// ------------------------
-	config.ConnectDB()
-	fmt.Println("✅ Database connected!")
-
-	// ------------------------
-	// 2️⃣ Initialize Validator
-	// ------------------------
+	cfg := config.LoadConfig()
+	database := db.Connect(cfg)
 	utils.InitValidator()
-	fmt.Println("✅ Validator initialized!")
 
-	// ------------------------
-	// 3️⃣ Setup Gin router
-	// ------------------------
+	jwtService := utils.NewJWTService(cfg.JWTSecret)
+	controllers := di.InitControllers(database, jwtService)
+
 	r := gin.Default()
-	routes.RegisterRoutes(r)
+	router.RegisterRoutes(r, controllers)
 
-	// ------------------------
-	// 4️⃣ Start server
-	// ------------------------
-	port := os.Getenv("APP_PORT")
-	if port == "" {
-		port = "8080"
-	}
-	address := fmt.Sprintf("0.0.0.0:%s", port)
+	address := fmt.Sprintf("0.0.0.0:%s", cfg.AppPort)
 	fmt.Printf("🚀 Server running at %s\n", address)
 	if err := r.Run(address); err != nil {
-		log.Fatalf("Failed to start server: %v", err)
+		log.Fatalf("❌ Failed to start server: %v", err)
 	}
 }
