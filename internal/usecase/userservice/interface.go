@@ -2,7 +2,7 @@ package userservice
 
 import "example.com/go-api/internal/domain/userentity"
 
-type UserRepository interface {
-	Create(user *userentity.User) error
-	FindByEmail(email string) (*userentity.User, error)
+type UserService interface {
+	Register(user *userentity.User) (*userentity.User, error)
+	Login(email, password string) (string, error)
 }
