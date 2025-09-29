@@ -62,7 +62,13 @@ exec-app:
 # ===============================
 test:
 	docker-compose --env-file $(ENV_FILE) -f $(COMPOSE_PROD) -f $(COMPOSE_DEV) exec $(APP_SERVICE) go test -v ./...
+
+# ===============================
+# 📄 Swagger
+# ===============================
+swagger:
+	swag init --generalInfo ./cmd/api/main.go --dir . --output ./docs --parseDependency
 # ===============================
 # Phony targets
 # ===============================
-.PHONY: docker-build docker-build-dev up up-dev up-app down down-clean logs restart-app exec-app
+.PHONY: docker-build docker-build-dev up up-dev up-app down down-clean logs restart-app exec-app swagger

@@ -60,3 +60,13 @@ tmp_dir = "tmp"
 
   # Show all logs (not just from main package)
   main_only = false
+
+# --------------------------------------
+# 🎨 Customize each part's color
+# --------------------------------------
+
+[color]
+  main = "magenta"
+  watcher = "cyan"
+  build = "yellow"
+  runner = "green"
